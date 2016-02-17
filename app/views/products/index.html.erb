@@ -1,0 +1,29 @@
+<table>
+	<tr>
+		<td><b>Product</b></td>
+		<td><b>Date Posted</b></td>
+		<td><b>Price($)</b></td>
+		<td>Name </td>		
+		<td><b>Action</b></td>
+	</tr>
+	<%@products.each do |user| %>	
+	<%user.products.each do |x|%> 
+	<tr>
+
+		<td>  <%=x.name%></td>
+		<td> <%=x.created_at%> </td>
+		<td> <%=x.price%> </td>
+		<td> <%=user.first_name%></td>
+		<%if current_user.products.exclude?(x)%>
+		<td> 
+			 <form action = "/sales/<%=x.id%>  " method='post'>
+			<input name="authenticity_token" type="hidden" value="<%= form_authenticity_token%>">
+			<input type="hidden" name= 'secret_id' value = "<%=x.id%>">
+			<input type="submit" value= "Buy">
+			</form>
+	 </td>
+	<%end%>
+	<%end%>
+	<%end%>
+	
+	</tr> 

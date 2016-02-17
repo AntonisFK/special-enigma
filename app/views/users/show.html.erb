@@ -1,0 +1,94 @@
+<a href=" /products">Go to all products</a>
+ <%if flash[:success] %>
+ <%=flash[:success] %> 
+ <%end%>
+<h2>Add a product</h2>
+<form action="/products" method= 'post'>
+	<input name="authenticity_token" type="hidden" value="<%= form_authenticity_token%>">
+	<input type="text" name='product[name]' placeholder="name">
+	<input type="text" name= 'product[price]' placeholder="price">	
+	<input type="submit">	
+
+</form>
+
+
+
+
+
+
+<table>
+	<tr>
+		<td><b>Product</b></td>
+		<td><b>Date Posted</b></td>
+		<td><b>Price($)</b></td>
+		<td></td>		
+		<td><b>Action</b></td>
+	</tr>
+	<%@products.each do |product| %>	
+	<tr>
+
+		<td> <%= product.name %> </td>
+		<td> <%= product.created_at%> </td>
+		<td> <%= product.price %> </td>
+		<td> </td>
+		<td> <a href="/products/<%= product.id%>" data-method='delete' >Remove</a></td>
+
+	</tr> 
+	<%end%>
+	</table>
+
+
+
+<p><b>Purchased</b></p>
+<table>
+	<tr>
+		<td><b>Product</b></td>
+		<td><b>Date Posted</b></td>
+		<td><b>Price($)</b></td>
+		<td></td>		
+	</tr>
+	<%@user.each do |product| %>
+	<tr>
+
+		<td> <%= product.name %> </td>
+		<td> <%= product.created_at%> </td>
+		<td> <%= product.price %> </td>
+		<td> </td>
+	<%end%>
+	</tr> 
+</table> 
+
+<p><b>Sold</b></p>
+ 
+<table> 
+	<tr>
+		<td><b>Product</b></td>
+		<td><b>Date Posted</b></td>
+		<td><b>Price($)</b></td>
+		<td></td>		
+	</tr>
+ <%@sale.each do |user| %>		
+
+	<%user.products.each do |x|%> 
+	<% if current_user.sales_products.exclude?(x)%>
+	<tr>
+
+		<td>  <%=x.name%></td>
+		<td> <%=x.created_at%> </td>
+		<td> <%=x.price%> </td>
+		<td> 
+	</tr>
+<%end%>
+<% end %>
+<% end %>
+
+
+</table>
+
+
+
+
+
+
+
+
